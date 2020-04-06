@@ -125,6 +125,92 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ловим нажатие на клавиши  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+
+    document.addEventListener('keydown', function (event) {
+        const allKeys = [...document.querySelectorAll('.key')];
+
+        event.preventDefault();
+
+
+
+        if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+            allKeys.forEach((key) => {
+                if (!key.classList.contains('spec-key')) {
+                    key.querySelectorAll('span').forEach((span) => {
+                        if (!span.classList.contains('hidden')) {
+                            span.innerHTML = span.innerHTML.toUpperCase();
+                        }
+                    })
+                }
+            })
+        }
+
+        allKeys.forEach((key) => {
+            if (event.code === key.dataset.keyProp) {
+                key.classList.add('active');
+            }
+        });
+
+        if (event.ctrlKey && event.altKey) {
+            allKeys.forEach((key) => {
+                if (!key.dataset.keyProp.includes('Digit') && !key.classList.contains('spec-key')) {
+                    key.querySelectorAll('span').forEach((span) => {
+                        span.classList.toggle('hidden');
+                    })
+                }
+            })
+        }
+
+        printLetter();
+    })
+
+    document.addEventListener('keyup', function (event) {
+        const allKeys = [...document.querySelectorAll('.key')];
+
+        if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+            allKeys.forEach((key) => {
+                if (!key.classList.contains('spec-key')) {
+                    key.querySelectorAll('span').forEach((span) => {
+                        if (!span.classList.contains('hidden')) {
+                            span.innerHTML = span.innerHTML.toLowerCase();
+                        }
+                    })
+                }
+            })
+        }
+
+        allKeys.forEach((key) => {
+            if (event.code === key.dataset.keyProp) {
+                key.classList.remove('active');
+            }
+        })
+
+
+    })
+
+    function printLetter() {
+        const allKeys = document.querySelectorAll('.key');
+
+
+        allKeys.forEach((key) => {
+            if (key.classList.contains('space') && key.classList.contains('active')) {
+                output.innerHTML += ' ';
+            } else if (key.classList.contains('active') && !key.classList.contains('spec-key')) {
+                key.querySelectorAll('span').forEach((span) => {
+                    if (!span.classList.contains('hidden')) {
+                        output.innerHTML += span.innerText;
+                    }
+                })
+            }
+        })
+
+
+    }
+
+
 
 
 
