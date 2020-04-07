@@ -39,6 +39,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
+
     for (let i = 0; i < keysEn.length; i++) {
         const divRow = document.createElement('div');
 
@@ -129,6 +130,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
+
     document.addEventListener('keydown', function (event) {
         const allKeys = [...document.querySelectorAll('.key')];
 
@@ -137,6 +139,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
         if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+
+
+
             allKeys.forEach((key) => {
                 if (!key.classList.contains('spec-key')) {
                     key.querySelectorAll('span').forEach((span) => {
@@ -165,6 +170,13 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         printLetter();
+
+
+
+        output.focus();
+        output.selectionStart = output.value.length;
+
+
     })
 
     document.addEventListener('keyup', function (event) {
@@ -196,23 +208,46 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
         allKeys.forEach((key) => {
-            if (key.classList.contains('space') && key.classList.contains('active')) {
-                output.innerHTML += ' ';
+            if (key.classList.contains('active') && key.classList.contains('enter')) {
+                output.value += '\n';
+            } else if (key.classList.contains('active') && key.classList.contains('tab')) {
+                output.value += '    ';
+            } else if (key.classList.contains('active') && key.classList.contains('backspace')) {
+                let pos =
+                    output.value = output.value.slice(0, -1);
+            } else if (key.classList.contains('space') && key.classList.contains('active')) {
+                output.value += ' ';
             } else if (key.classList.contains('active') && !key.classList.contains('spec-key')) {
                 key.querySelectorAll('span').forEach((span) => {
                     if (!span.classList.contains('hidden')) {
-                        output.innerHTML += span.innerText;
+                        output.value += span.innerText;
                     }
                 })
             }
         })
 
-
     }
 
 
+    keyboard.addEventListener('mousedown', function (event) {
 
 
+        if (event.target.classList.contains('key')) {
+            event.target.classList.add('active');
+        }
+        printLetter();
+        output.focus();
+        output.selectionStart = output.value.length;
+    })
+
+    keyboard.addEventListener('mouseup', function (event) {
+
+        if (event.target.classList.contains('key')) {
+            event.target.classList.remove('active');
+        }
+
+
+    })
 
 
 
