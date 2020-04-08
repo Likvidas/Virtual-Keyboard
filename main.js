@@ -117,10 +117,11 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         keyboard.append(divRow);
     }
+    const text = document.createElement('p');
 
+    text.innerHTML = `Смена языка произвотится нажатием Ctrl + Alt.  Задание выполнено в Windows10.`;
 
-
-    container.append(output, keyboard)
+    container.append(output, keyboard, text)
     document.body.append(container);
 
 
